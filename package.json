@@ -1,5 +1,5 @@
 {
-  "name": "jafar-react-native-document-picker",
+  "name": "@jafar/react-native-document-picker",
   "version": "0.1.0",
   "description": "Document picker for IOS and Android",
   "main": "lib/commonjs/index",
