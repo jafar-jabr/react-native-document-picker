@@ -4,19 +4,15 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(doPicking: errorCallback: (RCTResponseSenderBlock)errorCallback
-                  successCallback: (RCTResponseSenderBlock)successCallback)
+RCT_EXPORT_METHOD(doPicking: callback: (RCTResponseSenderBlock)callback)
 {
   @try {
-      NSNumber *errorCode = [NSNumber numberWithInt:301];
-      NSString *errorMessage = @"here is objc 1";
-      errorCallback(@[errorCode, errorMessage]);
+     NSNumber *errorCode = [NSNumber numberWithInt:301];
+     callback(@[[NSNull null], errorCode]);
   }
-
   @catch ( NSException *e ) {
-    NSNumber *errorCode = [NSNumber numberWithInt:301];
-    NSString *errorMessage = @"here is objc 2";
-    errorCallback(@[errorCode, errorMessage]);
+      NSNumber *errorCode = [NSNumber numberWithInt:301];
+      callback(@[[NSNull null], errorCode]);
   }
 }
 @end
