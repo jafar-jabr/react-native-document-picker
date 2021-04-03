@@ -8,7 +8,7 @@ import com.facebook.react.bridge.Promise
 class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
     override fun getName(): String {
-        return "@jafar/react-native-document-picker"
+        return "RNDocumentPicker"
     }
 
     // Example method

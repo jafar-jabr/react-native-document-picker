@@ -4,6 +4,6 @@ type JafarReactNativeDocumentPickerType = {
   multiply(a: number, b: number): Promise<number>;
 };
 
-const { JafarReactNativeDocumentPicker } = NativeModules;
+const { RNDocumentPicker } = NativeModules;
 
-export default JafarReactNativeDocumentPicker as JafarReactNativeDocumentPickerType;
+export default RNDocumentPicker as JafarReactNativeDocumentPickerType;
