@@ -4,16 +4,19 @@
 
 RCT_EXPORT_MODULE()
 
-// Example method
-// See // https://reactnative.dev/docs/native-modules-ios
-RCT_REMAP_METHOD(multiply,
-                 multiplyWithA:(nonnull NSNumber*)a withB:(nonnull NSNumber*)b
-                 withResolver:(RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(doPicking: errorCallback: (RCTResponseSenderBlock)errorCallback
+                  successCallback: (RCTResponseSenderBlock)successCallback)
 {
-  NSNumber *result = @([a floatValue] * [b floatValue]);
+  @try {
+      NSNumber *errorCode = [NSNumber numberWithInt:301];
+      NSString *errorMessage = @"here is objc 1";
+      errorCallback(@[errorCode, errorMessage]);
+  }
 
-  resolve(result);
+  @catch ( NSException *e ) {
+    NSNumber *errorCode = [NSNumber numberWithInt:301];
+    NSString *errorMessage = @"here is objc 2";
+    errorCallback(@[errorCode, errorMessage]);
+  }
 }
-
 @end
