@@ -1,5 +1,5 @@
 #import <React/RCTBridgeModule.h>
 
-@interface JafarReactNativeDocumentPicker : NSObject <RCTBridgeModule>
+@interface RNDocumentPicker : NSObject <RCTBridgeModule>
 
 @end
