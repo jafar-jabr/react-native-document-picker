@@ -3,7 +3,7 @@ import { NativeModules } from 'react-native';
 type callback = (response: Record<string, string | number>) => void;
 
 type JafarReactNativeDocumentPickerType = {
-  doPicking(): callback;
+  doPicking(cb: callback): null;
 };
 
 const { RNDocumentPicker } = NativeModules;
