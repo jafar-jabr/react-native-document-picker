@@ -1,4 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.jafar.reactnative.documentpicker">
-
+          package="com.jafar.reactnative.documentpicker"
+  xmlns:tools="http://schemas.android.com/tools">
+<application tools:node="merge">
+  <provider
+    android:name="com.jafar.reactnative.documentpicker.utils.RNDocumentPickerFilesProvider"
+    android:authorities="${applicationId}.RNDocumentPicker"
+    android:exported="false"
+    android:grantUriPermissions="true">
+    <meta-data
+      android:name="android.support.FILE_PROVIDER_PATHS"
+      android:resource="@xml/rn_document_picker_provider_paths" />
+  </provider>
+</application>
 </manifest>

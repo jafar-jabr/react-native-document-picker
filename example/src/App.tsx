@@ -1,13 +1,17 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import JafarReactNativeDocumentPicker from 'jafar-react-native-document-picker';
+// @ts-ignore
+import RNDocumentPicker from '@jafar/react-native-document-picker';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
 
   React.useEffect(() => {
-    JafarReactNativeDocumentPicker.multiply(3, 7).then(setResult);
+    RNDocumentPicker.doPicking((documentData: any) => {
+      setResult(documentData);
+      console.warn(JSON.stringify(documentData));
+    });
   }, []);
 
   return (

@@ -1,7 +1,9 @@
 import { NativeModules } from 'react-native';
 
+type callback = () => void;
+
 type JafarReactNativeDocumentPickerType = {
-  multiply(a: number, b: number): Promise<number>;
+  doPicking(): callback;
 };
 
 const { RNDocumentPicker } = NativeModules;
