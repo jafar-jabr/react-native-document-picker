@@ -4,7 +4,7 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(doPicking:cb: (RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(doPicking:callback: (RCTResponseSenderBlock)callback)
 {
   @try {
      NSNumber *errorCode = [NSNumber numberWithInt:301];
