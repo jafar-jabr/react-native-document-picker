@@ -1,6 +1,6 @@
 import { NativeModules } from 'react-native';
 
-type callback = () => void;
+type callback = (response: Record<string, string | number>) => void;
 
 type JafarReactNativeDocumentPickerType = {
   doPicking(): callback;
