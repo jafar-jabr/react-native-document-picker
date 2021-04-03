@@ -11,13 +11,20 @@ import java.io.IOException
 
 class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext), ActivityEventListener {
 
-  val NAME = "RNDocumentPicker"
+  private val name = "RNDocumentPicker"
   private var AppContext: Context? = null
-  private val PICK_FILE_REQUEST_CODE = 9321
-  protected var callback: Callback? = null
+  private var successCallback: Callback? = null
+  private var errorCallback: Callback? = null
+
+  companion object {
+    private const val PICK_FILE_REQUEST_CODE = 9321
+    private const val NO_ACTIVITY_ERROR_CODE = 404
+    private const val FILE_NOT_FOUND_ERROR_CODE = 301
+    private const val INTERNAL_ERROR_CODE = 400
+  }
 
     override fun getName(): String {
-        return NAME
+        return name
     }
 
   init {
@@ -26,16 +33,19 @@ class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContext
   }
 
     @ReactMethod
-    fun doPicking(cb: Callback) {
+    fun doPicking(error: Callback, response: Callback) {
       val currentActivity = currentActivity
-      callback = cb
+      successCallback = response
+      errorCallback = error
       val documentIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
       documentIntent.type = "*/*"
       val mimetypes = arrayOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/pdf", "text/plain", "application/zip")
       documentIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes)
-      assert(currentActivity != null)
-      currentActivity!!.startActivityForResult(documentIntent, PICK_FILE_REQUEST_CODE)
-
+      if (currentActivity != null) {
+        currentActivity.startActivityForResult(documentIntent, PICK_FILE_REQUEST_CODE)
+      }else{
+        error.invoke(NO_ACTIVITY_ERROR_CODE, "current activity is null")
+      }
     }
 
   private fun setUpPickingResponse(data: Intent) {
@@ -44,9 +54,9 @@ class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContext
     try {
       pickedImage = AppContext?.let { data.data?.let { it1 -> FileUtils.from(it, it1) } }!!
       pickedImagePath = pickedImage.absolutePath
-      FileUtils.setUpResponseFromPath(pickedImagePath, callback)
+      FileUtils.setUpResponseFromPath(pickedImagePath, successCallback, errorCallback, INTERNAL_ERROR_CODE)
     } catch (e: IOException) {
-      e.printStackTrace()
+      errorCallback?.invoke(FILE_NOT_FOUND_ERROR_CODE, e.message)
     }
   }
   override fun onActivityResult(activity: Activity?, requestCode: Int, resultCode: Int, data: Intent?) {
@@ -56,5 +66,4 @@ class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContext
   }
 
   override fun onNewIntent(intent: Intent?) {}
-
 }

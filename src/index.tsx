@@ -1,9 +1,10 @@
 import { NativeModules } from 'react-native';
 
-type callback = (response: Record<string, string | number>) => void;
+type successCallback = (response: Record<string, string | number>) => void;
+type errorCallback = (errorCode: number, errormessage: string) => void;
 
 type JafarReactNativeDocumentPickerType = {
-  doPicking(cb: callback): null;
+  doPicking(error: errorCallback, response: successCallback): null;
 };
 
 const { RNDocumentPicker } = NativeModules;

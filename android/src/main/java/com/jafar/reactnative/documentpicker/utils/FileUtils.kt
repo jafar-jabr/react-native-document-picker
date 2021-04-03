@@ -12,6 +12,7 @@ import java.io.*
 object FileUtils {
   private const val EOF = -1
   private const val DEFAULT_BUFFER_SIZE = 1024 * 4
+
   @Throws(IOException::class)
   fun from(context: Context, uri: Uri): File {
     val inputStream = context.contentResolver.openInputStream(uri)
@@ -92,7 +93,7 @@ object FileUtils {
     return count
   }
 
-  fun setUpResponseFromPath(filePath: String?, cb: Callback?) {
+  fun setUpResponseFromPath(filePath: String?, cb: Callback?, err: Callback?, errorCode: Number) {
     val responseHelper = ResponseHelper()
     val bmOptions = BitmapFactory.Options()
     bmOptions.inJustDecodeBounds = true
@@ -120,7 +121,7 @@ object FileUtils {
         }
       }
     } catch (e: Exception) {
-      e.printStackTrace()
+      err?.invoke(errorCode, e.message)
     }
     if (cb != null) {
       responseHelper.invokeResponse(cb)
