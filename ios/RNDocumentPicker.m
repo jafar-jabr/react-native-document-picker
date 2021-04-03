@@ -1,6 +1,6 @@
-#import "JafarReactNativeDocumentPicker.h"
+#import "RNDocumentPicker.h"
 
-@implementation @jafar/react-native-document-picker
+@implementation RNDocumentPicker
 
 RCT_EXPORT_MODULE()
 
