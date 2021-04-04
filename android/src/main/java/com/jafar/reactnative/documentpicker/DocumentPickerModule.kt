@@ -43,7 +43,8 @@ class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContext
       callback = response
       val documentIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
       documentIntent.type = "*/*"
-      val mimetypes = arrayOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/pdf", "text/plain", "application/zip")
+//      val mimetypes = arrayOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/pdf", "text/plain", "application/zip")
+      val mimetypes = arrayOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/pdf", "text/plain", "image/*")
       documentIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes)
       if (currentActivity != null) {
         currentActivity.startActivityForResult(documentIntent, PICK_FILE_REQUEST_CODE)
