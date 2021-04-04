@@ -93,7 +93,7 @@ object FileUtils {
     return count
   }
 
-  fun setUpResponseFromPath(filePath: String?, cb: Callback?, err: Callback?, errorCode: Number) {
+  fun setUpResponseFromPath(filePath: String?, cb: Callback, errorCode: Number) {
     val responseHelper = ResponseHelper()
     val bmOptions = BitmapFactory.Options()
     bmOptions.inJustDecodeBounds = true
@@ -121,10 +121,14 @@ object FileUtils {
         }
       }
     } catch (e: Exception) {
-      err?.invoke(errorCode, e.message)
+      var message = " "
+       message = if(e.message == null){
+        "bad request"
+      }  else ({
+         e.message
+       })!!
+      responseHelper.invokeError(cb, errorCode, message)
     }
-    if (cb != null) {
-      responseHelper.invokeResponse(cb)
-    }
+    responseHelper.invokeResponse(cb)
   }
 }

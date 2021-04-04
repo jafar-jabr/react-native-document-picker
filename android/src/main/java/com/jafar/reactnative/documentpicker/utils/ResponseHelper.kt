@@ -45,14 +45,15 @@ class ResponseHelper {
   }
 
   fun invokeError(callback: Callback,
-                  error: String) {
+                  errorCode: Number, errorMessage: String) {
     cleanResponse()
-    response.putString("error", error)
-    invokeResponse(callback)
+    response.putInt("code", errorCode as Int)
+    response.putString("message", errorMessage)
+    callback.invoke(response, null)
   }
 
   fun invokeResponse(callback: Callback) {
-    callback.invoke(response)
+    callback.invoke(null, response)
   }
 }
 

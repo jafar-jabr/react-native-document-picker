@@ -13,8 +13,7 @@ class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContext
 
   private val name = "RNDocumentPicker"
   private var AppContext: Context? = null
-  private var successCallback: Callback? = null
-  private var errorCallback: Callback? = null
+  private var callback: Callback? = null
 
   companion object {
     private const val PICK_FILE_REQUEST_CODE = 9321
@@ -32,11 +31,16 @@ class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContext
     reactContext.addActivityEventListener(this)
   }
 
+  fun errorResponse(errorCode: Number, errorMessage: String) {
+    val error = Arguments.createMap()
+    error.putInt("code", errorCode as Int)
+    error.putString("message", errorMessage)
+    callback!!.invoke(error, null)
+  }
     @ReactMethod
-    fun doPicking(error: Callback, response: Callback) {
+    fun doPicking(response: Callback) {
       val currentActivity = currentActivity
-      successCallback = response
-      errorCallback = error
+      callback = response
       val documentIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
       documentIntent.type = "*/*"
       val mimetypes = arrayOf("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/pdf", "text/plain", "application/zip")
@@ -44,7 +48,7 @@ class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContext
       if (currentActivity != null) {
         currentActivity.startActivityForResult(documentIntent, PICK_FILE_REQUEST_CODE)
       }else{
-        error.invoke(NO_ACTIVITY_ERROR_CODE, "current activity is null")
+        errorResponse(NO_ACTIVITY_ERROR_CODE, "current activity is null")
       }
     }
 
@@ -54,9 +58,9 @@ class DocumentPickerModule(reactContext: ReactApplicationContext) : ReactContext
     try {
       pickedImage = AppContext?.let { data.data?.let { it1 -> FileUtils.from(it, it1) } }!!
       pickedImagePath = pickedImage.absolutePath
-      FileUtils.setUpResponseFromPath(pickedImagePath, successCallback, errorCallback, INTERNAL_ERROR_CODE)
+      callback?.let { FileUtils.setUpResponseFromPath(pickedImagePath, it, INTERNAL_ERROR_CODE) }
     } catch (e: IOException) {
-      errorCallback?.invoke(FILE_NOT_FOUND_ERROR_CODE, e.message)
+      e.message?.let { errorResponse(FILE_NOT_FOUND_ERROR_CODE, it) }
     }
   }
   override fun onActivityResult(activity: Activity?, requestCode: Int, resultCode: Int, data: Intent?) {
