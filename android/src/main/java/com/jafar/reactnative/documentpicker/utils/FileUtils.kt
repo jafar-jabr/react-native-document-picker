@@ -121,13 +121,7 @@ object FileUtils {
         }
       }
     } catch (e: Exception) {
-      var message = " "
-       message = if(e.message == null){
-        "bad request"
-      }  else ({
-         e.message
-       })!!
-      responseHelper.invokeError(cb, errorCode, message)
+      e.message?.let { responseHelper.invokeError(cb, errorCode, it) }
     }
     responseHelper.invokeResponse(cb)
   }
