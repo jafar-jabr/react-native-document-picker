@@ -2,15 +2,15 @@
 #import <UIKit/UIKit.h>
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
-@interface RNDocumentPicker () <UIDocumentPickerDelegate>
+@interface RNDocumentPickerN () <UIDocumentPickerDelegate>
 @end
 
-@implementation RNDocumentPicker
+@implementation RNDocumentPickerN
 
 RCT_EXPORT_MODULE()
 
 - (void)viewDidLoad {
-  [super viewDidLoad];
+//  [super viewDidLoad];
   // Do any additional setup after loading the view.
 }
 
@@ -28,7 +28,7 @@ RCT_EXPORT_METHOD(doPicking:(RCTResponseSenderBlock)callback)
       picker.allowsMultipleSelection = YES;
       picker.delegate = self;
       picker.modalPresentationStyle = UIModalPresentationFormSheet;
-      [self presentViewController:picker animated:YES completion:nil];
+//      [self presentViewController:picker animated:YES completion:nil];
   }
   @catch ( NSException *e ) {
       NSNumber *errorCode = [NSNumber numberWithInt:301];
