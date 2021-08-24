@@ -11,7 +11,7 @@ type callback = (
 ) => void;
 
 interface RNDocumentPickerInterface {
-  doPicking(cb: callback): null;
+  doPicking(cb: callback): void;
 }
 
 const { RNDocumentPicker } = NativeModules;
